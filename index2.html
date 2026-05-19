@@ -1,0 +1,381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2487.5">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'}
+    span.s1 {font: 12.0px Helvetica}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1">&lt;title&gt;Guy Pistone — Content Calendar&lt;/title&gt;</p>
+<p class="p1">&lt;style&gt;</p>
+<p class="p1">*{box-sizing:border-box;margin:0;padding:0}</p>
+<p class="p1">body{font-family:Arial,sans-serif;background:#F1F5F9;color:#1E293B;padding:16px;min-height:100vh}</p>
+<p class="p1">.page-title{font-size:17px;font-weight:700;color:#0A1F44;margin-bottom:2px}</p>
+<p class="p1">.page-sub{font-size:11px;color:#64748B;margin-bottom:10px;line-height:1.5}</p>
+<p class="p1">.sync-bar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}</p>
+<p class="p1">.sync-status{font-size:11px;padding:4px 12px;border-radius:20px;font-weight:600}</p>
+<p class="p1">.sync-status.ok{background:#DCFCE7;color:#166534}</p>
+<p class="p1">.sync-status.loading{background:#FEF9C3;color:#854D0E}</p>
+<p class="p1">.sync-status.error{background:#FEE2E2;color:#991B1B}</p>
+<p class="p1">.btn-sync{font-size:11px;padding:4px 12px;border-radius:20px;border:0.5px solid #CBD5E1;background:#fff;cursor:pointer;color:#475569;font-family:Arial,sans-serif}</p>
+<p class="p1">.btn-sync:hover{background:#F1F5F9}</p>
+<p class="p1">.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px}</p>
+<p class="p1">@media(min-width:500px){.stats{grid-template-columns:repeat(4,1fr)}}</p>
+<p class="p1">.stat{background:#fff;border:0.5px solid #E2E8F0;border-radius:10px;padding:10px 14px}</p>
+<p class="p1">.stat-n{font-size:20px;font-weight:700;color:#0A1F44}</p>
+<p class="p1">.stat-l{font-size:10px;color:#64748B;margin-top:2px}</p>
+<p class="p1">.legend{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}</p>
+<p class="p1">.leg{display:flex;align-items:center;gap:4px;font-size:10px;color:#475569;background:#fff;padding:3px 8px;border-radius:20px;border:0.5px solid #E2E8F0}</p>
+<p class="p1">.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}</p>
+<p class="p1">.top-bar{display:flex;align-items:center;gap:8px;margin-bottom:12px}</p>
+<p class="p1">.nav-btn{font-size:12px;padding:7px 14px;cursor:pointer;border-radius:8px;border:0.5px solid #CBD5E1;background:#fff;color:#1E293B;font-family:Arial,sans-serif}</p>
+<p class="p1">.nav-btn:hover{background:#F1F5F9}</p>
+<p class="p1">.month-label{font-size:15px;font-weight:700;color:#0A1F44;flex:1;text-align:center}</p>
+<p class="p1">.reset-btn{font-size:11px;padding:6px 12px;cursor:pointer;border-radius:8px;border:0.5px solid #CBD5E1;background:#fff;color:#64748B;font-family:Arial,sans-serif}</p>
+<p class="p1">.reset-btn:hover{background:#FEF2F2;color:#991B1B;border-color:#FCA5A5}</p>
+<p class="p1">.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;margin-bottom:20px}</p>
+<p class="p1">.day-hdr{font-size:10px;font-weight:700;color:#94A3B8;text-align:center;padding:5px 0;letter-spacing:0.04em}</p>
+<p class="p1">.day-hdr.posting{color:#185FA5}</p>
+<p class="p1">.day-cell{border:0.5px solid #E2E8F0;border-radius:8px;padding:5px;min-height:80px;background:#fff;display:flex;flex-direction:column;gap:3px}</p>
+<p class="p1">@media(min-width:500px){.day-cell{min-height:95px;padding:7px}}</p>
+<p class="p1">.day-cell.off-day{background:transparent;border-color:transparent}</p>
+<p class="p1">.day-cell.posting-day{border-color:#BFDBFE;cursor:pointer}</p>
+<p class="p1">.day-cell.posting-day:hover{border-color:#3B82F6}</p>
+<p class="p1">.day-cell.has-content{border-color:transparent}</p>
+<p class="p1">.day-num{font-size:10px;font-weight:700;color:#CBD5E1}</p>
+<p class="p1">.day-num.active-num{color:#475569}</p>
+<p class="p1">.day-num.today-circle{background:#185FA5;color:#fff;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:9px}</p>
+<p class="p1">.slot{border-radius:6px;padding:4px 6px;cursor:pointer;flex:1;overflow:hidden}</p>
+<p class="p1">.slot:hover{opacity:0.8}</p>
+<p class="p1">.slot-pillar{font-size:8px;font-weight:700;letter-spacing:0.03em;margin-bottom:2px}</p>
+<p class="p1">.slot-copy{font-size:9px;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;opacity:0.85}</p>
+<p class="p1">.slot-channels{display:flex;gap:2px;margin-top:3px;flex-wrap:wrap}</p>
+<p class="p1">.slot-ch{font-size:8px;padding:1px 4px;border-radius:8px;background:rgba(255,255,255,0.5);font-weight:700}</p>
+<p class="p1">.add-btn{font-size:9px;color:#CBD5E1;cursor:pointer;padding:3px 1px;margin-top:auto}</p>
+<p class="p1">.add-btn:hover{color:#185FA5}</p>
+<p class="p1">.overlay{position:fixed;inset:0;background:rgba(15,23,42,0.55);display:flex;align-items:flex-end;justify-content:center;z-index:200;padding:0}</p>
+<p class="p1">@media(min-width:600px){.overlay{align-items:center;padding:16px}}</p>
+<p class="p1">.modal{background:#fff;border-radius:16px 16px 0 0;width:100%;max-height:92vh;overflow-y:auto}</p>
+<p class="p1">@media(min-width:600px){.modal{border-radius:16px;max-width:560px}}</p>
+<p class="p1">.modal-header{padding:16px 20px 14px;border-bottom:0.5px solid #F1F5F9;position:sticky;top:0;background:#fff;z-index:1}</p>
+<p class="p1">.modal-date-label{font-size:11px;font-weight:700;color:#185FA5;margin-bottom:2px;letter-spacing:0.04em;text-transform:uppercase}</p>
+<p class="p1">.modal-heading{font-size:16px;font-weight:700;color:#0A1F44}</p>
+<p class="p1">.modal-body{padding:16px 20px}</p>
+<p class="p1">.sec-label{font-size:10px;font-weight:700;color:#94A3B8;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;margin-top:18px}</p>
+<p class="p1">.sec-label:first-child{margin-top:0}</p>
+<p class="p1">.pillar-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}</p>
+<p class="p1">.pb{font-size:11px;padding:8px 10px;border-radius:8px;border:1.5px solid #E2E8F0;cursor:pointer;background:#fff;color:#475569;font-family:Arial,sans-serif;text-align:left;font-weight:600;line-height:1.3;width:100%}</p>
+<p class="p1">.pb:hover{border-color:#93C5FD;background:#F0F9FF}</p>
+<p class="p1">.pb.sel{font-weight:700}</p>
+<p class="p1">.copy-area{width:100%;border:1.5px solid #E2E8F0;border-radius:8px;padding:10px 12px;font-size:13px;font-family:Arial,sans-serif;color:#1E293B;resize:vertical;min-height:100px;line-height:1.6;margin-top:8px}</p>
+<p class="p1">.copy-area:focus{outline:none;border-color:#3B82F6}</p>
+<p class="p1">.copy-area::placeholder{color:#CBD5E1}</p>
+<p class="p1">.char-count{font-size:10px;color:#94A3B8;text-align:right;margin-top:3px}</p>
+<p class="p1">.ch-row{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#F8FAFC;border-radius:10px;padding:10px 12px;border:0.5px solid #E2E8F0;margin-bottom:8px;flex-wrap:wrap}</p>
+<p class="p1">.ch-info{display:flex;align-items:center;gap:8px}</p>
+<p class="p1">.ch-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0}</p>
+<p class="p1">.ch-name{font-size:12px;font-weight:700;color:#1E293B}</p>
+<p class="p1">.ch-platform{font-size:10px;color:#64748B}</p>
+<p class="p1">.ch-controls{display:flex;align-items:center;gap:8px;flex-shrink:0}</p>
+<p class="p1">.time-input{border:1px solid #E2E8F0;border-radius:6px;padding:5px 8px;font-size:12px;font-family:Arial,sans-serif;color:#1E293B;background:#fff;width:90px}</p>
+<p class="p1">.time-input:disabled{opacity:0.3;background:#F8FAFC}</p>
+<p class="p1">.time-input:focus{outline:none;border-color:#3B82F6}</p>
+<p class="p1">.toggle-wrap{display:flex;align-items:center;gap:5px}</p>
+<p class="p1">.tog-label{font-size:10px;color:#64748B;min-width:20px}</p>
+<p class="p1">.toggle{position:relative;width:34px;height:18px;cursor:pointer;flex-shrink:0}</p>
+<p class="p1">.toggle input{opacity:0;width:0;height:0;position:absolute}</p>
+<p class="p1">.slider{position:absolute;inset:0;background:#E2E8F0;border-radius:18px;transition:background 0.2s}</p>
+<p class="p1">.slider:before{content:'';position:absolute;width:14px;height:14px;left:2px;top:2px;background:#fff;border-radius:50%;transition:transform 0.2s}</p>
+<p class="p1">.toggle input:checked+.slider{background:#185FA5}</p>
+<p class="p1">.toggle input:checked+.slider:before{transform:translateX(16px)}</p>
+<p class="p1">.modal-footer{padding:14px 20px;border-top:0.5px solid #F1F5F9;display:flex;gap:8px;justify-content:flex-end;position:sticky;bottom:0;background:#fff}</p>
+<p class="p1">.btn-cancel{font-size:12px;padding:8px 16px;border-radius:8px;border:0.5px solid #CBD5E1;cursor:pointer;background:#fff;color:#475569;font-family:Arial,sans-serif;font-weight:600}</p>
+<p class="p1">.btn-remove{font-size:12px;padding:8px 16px;border-radius:8px;border:1px solid #FCA5A5;cursor:pointer;background:#fff;color:#991B1B;font-family:Arial,sans-serif;font-weight:600}</p>
+<p class="p1">.btn-remove:hover{background:#FEF2F2}</p>
+<p class="p1">.btn-save{font-size:12px;padding:8px 20px;border-radius:8px;border:none;cursor:pointer;background:#185FA5;color:#fff;font-family:Arial,sans-serif;font-weight:700}</p>
+<p class="p1">.btn-save:disabled{opacity:0.35;cursor:default}</p>
+<p class="p1">.btn-save:not(:disabled):hover{background:#0F4A88}</p>
+<p class="p1">&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="page-title"&gt;Guy Pistone — Content Calendar&lt;/div&gt;</p>
+<p class="p1">&lt;p class="page-sub"&gt;Mon · Wed · Thu · Fri &amp;nbsp;|&amp;nbsp; All channels · Shared in real time&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="sync-bar"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;span class="sync-status loading" id="sync-status"&gt;Cargando...&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;button class="btn-sync" onclick="loadData()"&gt;↻ Refrescar&lt;/button&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="stats"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="stat"&gt;&lt;div class="stat-n" id="s-sched"&gt;0&lt;/div&gt;&lt;div class="stat-l"&gt;Programados&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="stat"&gt;&lt;div class="stat-n" id="s-rem"&gt;57&lt;/div&gt;&lt;div class="stat-l"&gt;Restantes&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="stat"&gt;&lt;div class="stat-n" id="s-wks"&gt;0&lt;/div&gt;&lt;div class="stat-l"&gt;Semanas&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="stat"&gt;&lt;div class="stat-n"&gt;4x&lt;/div&gt;&lt;div class="stat-l"&gt;Posts / semana&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="legend"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="leg"&gt;&lt;div class="leg-dot" style="background:#85B7EB"&gt;&lt;/div&gt;AI Industry&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="leg"&gt;&lt;div class="leg-dot" style="background:#97C459"&gt;&lt;/div&gt;Valere&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="leg"&gt;&lt;div class="leg-dot" style="background:#EF9F27"&gt;&lt;/div&gt;AI Sectors&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="leg"&gt;&lt;div class="leg-dot" style="background:#ED93B1"&gt;&lt;/div&gt;Personal&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="leg"&gt;&lt;div class="leg-dot" style="background:#AFA9EC"&gt;&lt;/div&gt;Philosophy&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="leg"&gt;&lt;div class="leg-dot" style="background:#5DCAA5"&gt;&lt;/div&gt;Leadership&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="top-bar"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;button class="nav-btn" onclick="changeMonth(-1)"&gt;&amp;#8592;&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="month-label" id="month-label"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;button class="nav-btn" onclick="changeMonth(1)"&gt;&amp;#8594;&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;button class="reset-btn" onclick="resetAll()"&gt;&amp;#8635; Reset&lt;/button&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="cal-grid" id="cal-grid"&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;div id="modal-area"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;script&gt;</p>
+<p class="p1">// ── CONFIGURACIÓN — pega tu URL del Apps Script aquí ─────────</p>
+<p class="p3"><span class="s1">const SCRIPT_URL = '</span>https://script.google.com/macros/s/AKfycbyuuSszMnS2_fbWa1ekU5VrBPmozzXOPv5rR_Q4_n74rgvgMEgQxR69vvDh_keJvh0S/exec<span class="s1">';</span></p>
+<p class="p1">// ─────────────────────────────────────────────────────────────</p>
+<p class="p2"><br></p>
+<p class="p1">const PILLARS=[</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{id:'p1',label:'01 AI Industry &amp; Trends',bg:'#E6F1FB',fg:'#0C447C',border:'#85B7EB'},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{id:'p2',label:'02 Valere / Company',bg:'#EAF3DE',fg:'#27500A',border:'#97C459'},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{id:'p3',label:'03 AI in Sectors',bg:'#FAEEDA',fg:'#633806',border:'#EF9F27'},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{id:'p4',label:'04 Personal Story',bg:'#FBEAF0',fg:'#72243E',border:'#ED93B1'},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{id:'p5',label:'05 AI Philosophy',bg:'#EEEDFE',fg:'#3C3489',border:'#AFA9EC'},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{id:'p6',label:'06 Business Leadership',bg:'#E1F5EE',fg:'#085041',border:'#5DCAA5'},</p>
+<p class="p1">];</p>
+<p class="p1">const CHANNELS=[</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{id:'tiktok',name:'TikTok',platform:'TikTok',icon:'TK',iconBg:'#000',iconColor:'#fff',def:'19:00'},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{id:'fbig',name:'Facebook &amp; Instagram',platform:'FB · IG',icon:'FI',iconBg:'#1877F2',iconColor:'#fff',def:'10:00'},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{id:'x',name:'X (Twitter)',platform:'X / Twitter',icon:'X',iconBg:'#111',iconColor:'#fff',def:'09:00'},</p>
+<p class="p1">];</p>
+<p class="p1">const POSTING_DAYS=[1,3,4,5];</p>
+<p class="p1">const DAY_NAMES=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];</p>
+<p class="p1">const MONTH_NAMES=['January','February','March','April','May','June','July','August','September','October','November','December'];</p>
+<p class="p2"><br></p>
+<p class="p1">let today=new Date(),viewYear=today.getFullYear(),viewMonth=today.getMonth();</p>
+<p class="p1">let assignments={},modalDate=null,draft={};</p>
+<p class="p2"><br></p>
+<p class="p1">function freshChannels(){const c={};CHANNELS.forEach(ch=&gt;{c[ch.id]={enabled:true,time:ch.def};});return c;}</p>
+<p class="p1">function getPillar(id){return PILLARS.find(p=&gt;p.id===id);}</p>
+<p class="p1">function setStatus(msg,type){const el=document.getElementById('sync-status');el.textContent=msg;el.className='sync-status '+type;}</p>
+<p class="p1">function updateStats(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const n=Object.keys(assignments).length;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('s-sched').textContent=n;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('s-rem').textContent=57-n;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('s-wks').textContent=Math.ceil(n/4)||0;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// ── API calls via JSONP (works cross-origin from GitHub Pages) ─</p>
+<p class="p1">function jsonpLoad(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>return new Promise((resolve,reject)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const cb='cb_'+Date.now();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const s=document.createElement('script');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const timer=setTimeout(()=&gt;{cleanup();reject(new Error('timeout'));},10000);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>window[cb]=(data)=&gt;{cleanup();resolve(data);};</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function cleanup(){clearTimeout(timer);delete window[cb];s.parentNode&amp;&amp;s.parentNode.removeChild(s);}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>s.onerror=()=&gt;{cleanup();reject(new Error('load error'));};</p>
+<p class="p1"><span class="Apple-converted-space">    </span>s.src=SCRIPT_URL+'?action=load&amp;callback='+cb;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.head.appendChild(s);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">async function postData(payload){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>try{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>await fetch(SCRIPT_URL,{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>method:'POST',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>mode:'no-cors',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>body:JSON.stringify(payload)</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}catch(e){}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">async function loadData(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>setStatus('Cargando...','loading');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>try{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const data=await jsonpLoad();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(data.ok){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>assignments=data.entries||{};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>setStatus('Sincronizado · '+new Date().toLocaleTimeString(),'ok');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>throw new Error(data.error||'error');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}catch(e){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>setStatus('Error — revisa la URL del script','error');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>console.error(e);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderCalendar();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// ── Calendar ─────────────────────────────────────────────────</p>
+<p class="p1">function renderCalendar(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const grid=document.getElementById('cal-grid');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>grid.innerHTML='';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>DAY_NAMES.forEach((d,i)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const h=document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>h.className='day-hdr'+(POSTING_DAYS.includes(i)?' posting':'');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>h.textContent=d;grid.appendChild(h);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const firstDay=new Date(viewYear,viewMonth,1).getDay();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const daysInMonth=new Date(viewYear,viewMonth+1,0).getDate();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>for(let i=0;i&lt;firstDay;i++){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const b=document.createElement('div');b.className='day-cell off-day';grid.appendChild(b);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>for(let d=1;d&lt;=daysInMonth;d++){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const jsDay=new Date(viewYear,viewMonth,d).getDay();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const isPosting=POSTING_DAYS.includes(jsDay);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const key=viewYear+'-'+String(viewMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const assigned=assignments[key];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const isToday=(today.getFullYear()===viewYear&amp;&amp;today.getMonth()===viewMonth&amp;&amp;today.getDate()===d);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(!isPosting){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const cell=document.createElement('div');cell.className='day-cell off-day';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const n=document.createElement('div');n.className='day-num';n.textContent=d;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cell.appendChild(n);grid.appendChild(cell);continue;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const cell=document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>cell.className='day-cell posting-day'+(assigned?' has-content':'');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(assigned){const p=getPillar(assigned.pillarId);if(p)cell.style.background=p.bg+'CC';}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>cell.onclick=()=&gt;openModal(key,d);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const numEl=document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>numEl.className='day-num'+(isToday?' today-circle':' active-num');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>numEl.textContent=d;cell.appendChild(numEl);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(assigned){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const p=getPillar(assigned.pillarId);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(p){</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const slot=document.createElement('div');slot.className='slot';slot.style.color=p.fg;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const pl=document.createElement('div');pl.className='slot-pillar';pl.textContent=p.label;slot.appendChild(pl);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if(assigned.copy){const cp=document.createElement('div');cp.className='slot-copy';cp.textContent=assigned.copy;slot.appendChild(cp);}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const chs=document.createElement('div');chs.className='slot-channels';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>CHANNELS.forEach(ch=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if(assigned.channels&amp;&amp;assigned.channels[ch.id]&amp;&amp;assigned.channels[ch.id].enabled){</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const b=document.createElement('div');b.className='slot-ch';b.style.color=p.fg;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>b.textContent=(ch.id==='fbig'?'FB/IG':ch.name)+' '+assigned.channels[ch.id].time;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>chs.appendChild(b);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>slot.appendChild(chs);cell.appendChild(slot);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const ab=document.createElement('div');ab.className='add-btn';ab.textContent='+ Schedule';cell.appendChild(ab);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>grid.appendChild(cell);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('month-label').textContent=MONTH_NAMES[viewMonth]+' '+viewYear;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>updateStats();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// ── Modal ─────────────────────────────────────────────────────</p>
+<p class="p1">function openModal(key,day){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>modalDate=key;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const ex=assignments[key];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>draft=ex</p>
+<p class="p1"><span class="Apple-converted-space">    </span>?{pillarId:ex.pillarId,copy:ex.copy||'',channels:JSON.parse(JSON.stringify(ex.channels||freshChannels()))}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>:{pillarId:null,copy:'',channels:freshChannels()};</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderModal(day);</p>
+<p class="p1">}</p>
+<p class="p1">function escHtml(s){return(s||'').replace(/&amp;/g,'&amp;amp;').replace(/&lt;/g,'&amp;lt;').replace(/&gt;/g,'&amp;gt;').replace(/"/g,'&amp;quot;');}</p>
+<p class="p1">function renderModal(day){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const ex=assignments[modalDate];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const jsDay=new Date(viewYear,viewMonth,day).getDay();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const dayLabel=DAY_NAMES[jsDay]+', '+MONTH_NAMES[viewMonth]+' '+day+', '+viewYear;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>let html=`&lt;div class="overlay" id="overlay" onclick="overlayClick(event)"&gt;&lt;div class="modal"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="modal-header"&gt;&lt;div class="modal-date-label"&gt;Posting Day&lt;/div&gt;&lt;div class="modal-heading"&gt;${dayLabel}&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="modal-body"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="sec-label"&gt;1 — Content pillar&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="pillar-grid"&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>PILLARS.forEach(pp=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const isSel=draft.pillarId===pp.id;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>html+=`&lt;button class="pb${isSel?' sel':''}" style="${isSel?`background:${pp.bg};color:${pp.fg};border-color:${pp.border}`:''}" onclick="selectPillar('${pp.id}',${day})"&gt;${pp.label}&lt;/button&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>html+=`&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(draft.pillarId){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>html+=`&lt;div class="sec-label"&gt;2 — Content copy&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;textarea class="copy-area" id="copy-ta" placeholder="Write or paste your content copy here..." oninput="syncCopy(this.value)"&gt;${escHtml(draft.copy)}&lt;/textarea&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="char-count" id="char-count"&gt;${draft.copy.length} characters&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="sec-label"&gt;3 — Publishing time per channel&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>CHANNELS.forEach(ch=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const chData=draft.channels[ch.id]||{enabled:true,time:ch.def};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>html+=`&lt;div class="ch-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="ch-info"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="ch-icon" style="background:${ch.iconBg};color:${ch.iconColor}"&gt;${ch.icon}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;div class="ch-name"&gt;${ch.name}&lt;/div&gt;&lt;div class="ch-platform"&gt;${ch.platform}&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="ch-controls"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="time" class="time-input" value="${chData.time}" ${!chData.enabled?'disabled':''} onchange="updateTime('${ch.id}',this.value)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="toggle-wrap"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="tog-label"&gt;${chData.enabled?'On':'Off'}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="toggle"&gt;&lt;input type="checkbox" ${chData.enabled?'checked':''} onchange="toggleCh('${ch.id}',this.checked,${day})"&gt;&lt;span class="slider"&gt;&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>html+=`&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="modal-footer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="btn-cancel" onclick="closeModal()"&gt;Cancel&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>${ex?`&lt;button class="btn-remove" onclick="removeSlot()"&gt;Remove&lt;/button&gt;`:''}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="btn-save" onclick="saveSlot()" ${!draft.pillarId?'disabled':''}&gt;Save&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('modal-area').innerHTML=html;</p>
+<p class="p1">}</p>
+<p class="p1">function overlayClick(e){if(e.target.id==='overlay')closeModal();}</p>
+<p class="p1">function selectPillar(pid,day){draft.pillarId=pid;renderModal(day);}</p>
+<p class="p1">function syncCopy(v){draft.copy=v;const cc=document.getElementById('char-count');if(cc)cc.textContent=v.length+' characters';}</p>
+<p class="p1">function updateTime(chId,v){if(draft.channels[chId])draft.channels[chId].time=v;}</p>
+<p class="p1">function toggleCh(chId,en,day){if(draft.channels[chId])draft.channels[chId].enabled=en;renderModal(day);}</p>
+<p class="p2"><br></p>
+<p class="p1">async function saveSlot(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!draft.pillarId)return;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const ta=document.getElementById('copy-ta');if(ta)draft.copy=ta.value;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const entry={pillarId:draft.pillarId,copy:draft.copy,channels:JSON.parse(JSON.stringify(draft.channels))};</p>
+<p class="p1"><span class="Apple-converted-space">  </span>assignments[modalDate]=entry;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>closeModal();renderCalendar();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>setStatus('Guardando...','loading');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>await postData({action:'save',dateKey:modalDate,...entry});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>setTimeout(async()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>try{const d=await jsonpLoad();if(d.ok){assignments=d.entries||{};renderCalendar();}setStatus('Guardado · '+new Date().toLocaleTimeString(),'ok');}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>catch(e){setStatus('Guardado (sin confirmación)','ok');}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>},1800);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">async function removeSlot(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const key=modalDate;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>delete assignments[key];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>closeModal();renderCalendar();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>await postData({action:'remove',dateKey:key});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>setStatus('Eliminado · '+new Date().toLocaleTimeString(),'ok');</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function closeModal(){document.getElementById('modal-area').innerHTML='';modalDate=null;}</p>
+<p class="p1">function changeMonth(dir){viewMonth+=dir;if(viewMonth&gt;11){viewMonth=0;viewYear++;}if(viewMonth&lt;0){viewMonth=11;viewYear--;}renderCalendar();}</p>
+<p class="p2"><br></p>
+<p class="p1">async function resetAll(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(confirm('¿Resetear TODO el contenido del equipo? No se puede deshacer.')){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>assignments={};renderCalendar();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>await postData({action:'reset'});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>setStatus('Reset exitoso','ok');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">loadData();</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
